@@ -1,6 +1,7 @@
 #Code written by leo
 import subprocess
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.types import Message
 from pyromod import listen
 import asyncio
