@@ -1,7 +1,5 @@
-#Code written by leo
 import subprocess
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.types import Message
 from pyromod import listen
 import asyncio
@@ -10,7 +8,7 @@ import time
 import sys
 import os
 
-bot_token = os.environ.get("7219535009:AAF2XPzRXlALSnZ5JfSPG5lhWTStvPn87tw")
+bot_token = os.environ.get("7361574071:AAFds5AYOFpqDizW660NPDqqrvExfOJ7zB0")
 
 bot = Client(
     "bot",
@@ -20,17 +18,15 @@ bot = Client(
 )
 #Code written by @leo
 @bot.on_message(filters.command(["start"]))
-async def start(_, message):
-    await message.reply_photo(
-        photo="https://telegra.ph/file/1d0c6fe5961f466d596fa.jpg",
-        caption="**𝙷𝚒!**\n\n**𝙶𝚒𝚟𝚎 /Leo ♌️ 𝙲𝚘𝚖𝚖𝚊𝚗𝚍 T𝚘 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙵𝚛𝚘𝚖 A 𝚃𝚎𝚡𝚝 F𝚒𝚕𝚎.**🎓✨",
-        reply_markup=InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("ᴄʜᴀɴɴᴇʟ", url="https://t.me/tigerxy09"),
-                InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/tigerxy09")
-            ]
-        ])
-    )
+async def start(_,message):
+  await message.reply_photo(photo="https://telegra.ph/file/1d0c6fe5961f466d596fa.jpg", caption="**𝙷𝚒!**\n\n**𝙶𝚒𝚟𝚎 /Leo ♌️ 𝙲𝚘𝚖𝚖𝚊𝚗𝚍 T𝚘 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙵𝚛𝚘𝚖 A 𝚃𝚎𝚡𝚝 F𝚒𝚕𝚎.**🎓✨",
+                            reply_markup=InlineKeyboardMarkup([
+                           
+                [
+                  InlineKeyboardButton("ᴄʜᴀɴɴᴇʟ", url="https://t.me/tigerxy09"),
+                  InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/tigerxy09")
+                ]
+                            ]))
 @bot.on_message(filters.command("restart"))
 async def restart_handler(_, m):
     await m.reply_text("**Restarted**🚦", True)
@@ -160,7 +156,7 @@ async def account_login(bot: Client, m: Message):
             else:
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"' 
             try:
-                cc = f'**Vid_id  :** {str(count).zfill(3)}\n\n**Tittle :**{name1}.mkv\n'
+                cc = f'**Vid_id  :** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ :**__{name1}.mkv__\n'
                 Show = f"** Downloading :**\n\n**Name :** {name}\nVideo Quality - {raw_text2}\n\n Code By TiGer"
                 prog = await m.reply_text(Show)
                 filename = await download_video(url, cmd, name)
@@ -176,3 +172,5 @@ async def account_login(bot: Client, m: Message):
     await m.reply_text("**Done**🚦")
 
 bot.run()
+
+give me updated main.py
