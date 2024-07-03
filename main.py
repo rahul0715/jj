@@ -10,7 +10,7 @@ import time
 import sys
 import os
 
-bot_token = os.environ.get("7207395878:AAFmWCYRi6MVLi3-9cvvfZD-jQvOcCF4llg")
+bot_token = os.environ.get("7219535009:AAF2XPzRXlALSnZ5JfSPG5lhWTStvPn87tw")
 
 bot = Client(
     "bot",
