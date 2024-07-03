@@ -102,32 +102,47 @@ async def restart_handler(_, m):
 @bot.on_message(filters.command(["Leo"]))
 async def account_login(bot: Client, m: Message):
     editable = await m.reply_text('__Please Input Your Url __ \n\nEg: `FileName: File Link` or Send default any Video Url')
-    input_message = await bot.listen(m.chat.id)
-    if input_message.document:
-        x = await input_message.download()
-        await input_message.delete()
+    
+    # Function to handle input from user
+    async def handle_user_input(input_message):
         try:
-            with open(x, "r") as f:
-                content = f.read()
-            content = content.split("\n")
-            links = [i.split("://", 1) for i in content]
-            os.remove(x)
+            if input_message.document:
+                x = await input_message.download()
+                await input_message.delete()
+                try:
+                    with open(x, "r") as f:
+                        content = f.read()
+                    content = content.split("\n")
+                    links = [i.split("://", 1) for i in content]
+                    os.remove(x)
+                except Exception as e:
+                    await m.reply_text(f"Error processing file: {e}")
+                    os.remove(x)
+                    return links
+            else:
+                content = input_message.text
+                content = content.split("\n")
+                links = [i.split("://", 1) for i in content]
+                await input_message.delete()
+                return links
         except Exception as e:
-            await m.reply_text(f"Error processing file: {e}")
-            os.remove(x)
-            return
-    else:
-        content = input_message.text
-        content = content.split("\n")
-        links = [i.split("://", 1) for i in content]
-        await input_message.delete()
+            await m.reply_text(f"Error: {e}")
+            return []
+    
+    # Wait for user input message
+    input_message = await bot.listen(m.chat.id)
+    links = await handle_user_input(input_message)
    
     await editable.edit(f"Total Links Found Are **{len(links)}**\n\nSend From Where You Want To Download initial is **1**")
+    
+    # Wait for resolution input
     input0_message = await bot.listen(m.chat.id)
     raw_text = input0_message.text
     await input0_message.delete()
     
     await editable.edit("**Enter Resolution**")
+    
+    # Wait for user input message for resolution
     input2_message = await bot.listen(m.chat.id)
     raw_text2 = input2_message.text
     await input2_message.delete()
@@ -172,4 +187,5 @@ async def account_login(bot: Client, m: Message):
         await m.reply_text(str(e))
     await m.reply_text("**Done**🚦")
 
+# Run the bot
 bot.run()
