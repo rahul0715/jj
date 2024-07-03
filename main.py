@@ -1,13 +1,13 @@
 import subprocess
-import os
-import sys
+from pyrogram import Client, filters
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 import asyncio
 import logging
 import time
+import sys
+import os
 
-from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-
+# Replace with your actual bot token from environment variables
 bot_token = os.environ.get("BOT_TOKEN")
 
 bot = Client(
@@ -17,27 +17,10 @@ bot = Client(
     api_hash="b1e3ce7b9cc5d73e7c22c9e82ab3cbe9"
 )
 
-@bot.on_message(filters.command(["start"]))
-async def start(_, message):
-    await message.reply_photo(
-        photo="https://telegra.ph/file/1d0c6fe5961f466d596fa.jpg",
-        caption="**𝙷𝚒!**\n\n**𝙶𝚒𝚟𝚎 /Leo ♌️ 𝙲𝚘𝚖𝚖𝚊𝚗𝚍 T𝚘 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙵𝚛𝚘𝚖 A 𝚃𝚎𝚡𝚝 F𝚒𝚕𝚎.**🎓✨",
-        reply_markup=InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("ᴄʜᴀɴɴᴇʟ", url="https://t.me/tigerxy09"),
-                InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/tigerxy09")
-            ]
-        ])
-    )
-
-@bot.on_message(filters.command("restart"))
-async def restart_handler(_, m):
-    await m.reply_text("**Restarted**🚦", True)
-    os.execl(sys.executable, sys.executable, *sys.argv)
+logging.basicConfig(level=logging.INFO)
 
 async def download_video(url, cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
-    global failed_counter
     print(download_cmd)
     logging.info(download_cmd)
     k = subprocess.run(download_cmd, shell=True)
@@ -69,13 +52,13 @@ async def send_vid(bot, m, cc, filename, name, prog):
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"', shell=True)
     thumb = f"{filename}.jpg"
     logging.info("Default Thumb downloaded successfully!")
-
+    
     duration_seconds = float(os.popen(f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "{filename}"').read())
     dur = int(duration_seconds)
-
+    
     start_time = time.time()  
     await xx.delete()
-
+    
     try:
         xxx = await bot.send_message(m.chat.id, f"**WaterMark Overlay on Video - ** `{name}`")
         subprocess.run(
@@ -86,33 +69,49 @@ async def send_vid(bot, m, cc, filename, name, prog):
         )
     except Exception as e:
         logging.error(f"Error Executing Command: {e}")
-
+    
     watermark_video = f"{filename}_watermark.mp4"
     await xxx.delete()
 
-    reply = await bot.send_message(m.chat.id, f"**Uploading :**\n\n**Name :** `{name}`\n\nCode By TiGer")
+    reply = await bot.send_message(m.chat.id, f"**Uploading :**\n\n**Name :** `{name}\n\nCode By Leo")
 
     try:
-        await bot.send_video(
-            chat_id=m.chat.id, video=watermark_video, caption=cc, supports_streaming=True,
-            height=720, width=1280, thumb=thumb, duration=dur, progress_args=(reply, start_time)
-        )
+        await bot.send_video(chat_id=m.chat.id, video=watermark_video, caption=cc, supports_streaming=True, height=720, width=1280, thumb=thumb, duration=dur, progress_args=(reply, start_time))
     except Exception as e:
         logging.error(f"Error while sending video: {e}")
         await bot.send_video(chat_id=m.chat.id, video=watermark_video, caption=cc, progress_args=(reply, start_time))
-
+    
     os.remove(filename)
     os.remove(watermark_video)
     os.remove(thumb)
     await reply.delete()
 
+@bot.on_message(filters.command(["start"]))
+async def start(_, message):
+    await message.reply_photo(
+        photo="https://telegra.ph/file/1d0c6fe5961f466d596fa.jpg",
+        caption="**𝙷𝚒!**\n\n**𝙶𝚒𝚟𝚎 /Leo ♌️ 𝙲𝚘𝚖𝚖𝚊𝚗𝚍 T𝚘 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙵𝚛𝚘𝚖 A 𝚃𝚎𝚡𝚝 F𝚒𝚕𝚎.**🎓✨",
+        reply_markup=InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("ᴄʜᴀɴɴᴇʟ", url="https://t.me/tigerxy09"),
+                InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/tigerxy09")
+            ]
+        ])
+    )
+
+@bot.on_message(filters.command("restart"))
+async def restart_handler(_, m):
+    await m.reply_text("**Restarted**🚦")
+    os.execl(sys.executable, sys.executable, *sys.argv)
+
 @bot.on_message(filters.command(["Leo"]))
 async def account_login(bot: Client, m: Message):
     editable = await m.reply_text('__Please Input Your Url __ \n\nEg: `FileName: File Link` or Send default any Video Url')
-    input: Message = await bot.listen(editable.chat.id)
-    if input.document:
-        x = await input.download()
-        await input.delete()
+    input_message = await bot.ask(editable.chat.id, "Please Input Your Url")
+
+    if input_message.document:
+        x = await input_message.download()
+        await input_message.delete()
         try:
             with open(x, "r") as f:
                 content = f.read()
@@ -124,20 +123,20 @@ async def account_login(bot: Client, m: Message):
             os.remove(x)
             return
     else:
-        content = input.text
+        content = input_message.text
         content = content.split("\n")
         links = [i.split("://", 1) for i in content]
-        await input.delete()
-
+        await input_message.delete()
+   
     await editable.edit(f"Total Links Found Are **{len(links)}**\n\nSend From Where You Want To Download initial is **1**")
-    input0: Message = await bot.listen(editable.chat.id)
-    raw_text = input0.text
-    await input0.delete()
-
+    input0_message = await bot.ask(editable.chat.id, "Send From Where You Want To Download initial is **1**")
+    raw_text = input0_message.text
+    await input0_message.delete()
+    
     await editable.edit("**Enter Resolution**")
-    input2: Message = await bot.listen(editable.chat.id)
-    raw_text2 = input2.text
-    await input2.delete()
+    input2_message = await bot.ask(editable.chat.id, "Enter Resolution")
+    raw_text2 = input2_message.text
+    await input2_message.delete()
     await editable.delete()
 
     if len(links) == 1:
@@ -145,12 +144,12 @@ async def account_login(bot: Client, m: Message):
     else:
         count = int(raw_text)
 
-    try:
+    try:            
         for i in range(len(links)):
             name1 = links[i][0].replace(":", "Leo").replace("https", "").strip()
             name = f'{str(count).zfill(3)}){name1[:60]}'
-            url = links[i][1]
-            
+            url = links[i][1]       
+
             if "youtu" in url:
                 ytf = f"b[height<={raw_text2}][ext=mp4]/bv[height<={raw_text2}][ext=mp4]+ba[ext=m4a]/b[ext=mp4]"
             else:
@@ -158,12 +157,11 @@ async def account_login(bot: Client, m: Message):
 
             if "acecwply" in url:
                 cmd = f'yt-dlp -o "{name}.%(ext)s" -f "bestvideo[height<={raw_text2}]+bestaudio" --hls-prefer-ffmpeg --no-keep-video --remux-video mkv --no-warning "{url}"'
-
+        
             elif "jw-prod" in url:
                 cmd = f'yt-dlp -o "{name}.mp4" "{url}"'
             else:
-                cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
-
+                cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"' 
             try:
                 cc = f'**Vid_id  :** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ :**__{name1}.mkv__\n'
                 Show = f"** Downloading :**\n\n**Name :** `{name}\nVideo Quality - {raw_text2}\n\n Code By TiGer"
@@ -174,11 +172,10 @@ async def account_login(bot: Client, m: Message):
                 count += 1
                 time.sleep(1)
             except Exception as e:
-                await m.reply_text(f"**Downloading Interupted **\n\n**Name** : `{name}`\n**Link** : `{url}`\n\n ** Fail Reason :** {e}\n\n Code By TiGer")
-                continue
+                    await m.reply_text(f"**Downloading Interupted **\n\n**Name** : `{name}`\n**Link** : `{url}`\n\n ** Fail Reason :** {e}\n\n Code By TiGer")
+                    continue
     except Exception as e:
         await m.reply_text(str(e))
-
     await m.reply_text("**Done**🚦")
 
 bot.run()
