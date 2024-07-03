@@ -1,4 +1,4 @@
-#Code written by @St2Master
+#Code written by leo
 import subprocess
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -17,16 +17,16 @@ bot = Client(
     api_id=28426319,
     api_hash="b1e3ce7b9cc5d73e7c22c9e82ab3cbe9"
 )
-#Code written by @St2Master
+#Code written by @leo
 @bot.on_message(filters.command(["start"]))
 async def account_login(bot: Client, m: Message):
-    await m.reply_text(f"__Hello Bruh i am your bot ... i can upload your video with your watermark__\n\n**Please Contact - @St2Master**")
+    await m.reply_text(f"__Hello Bruh i am your bot ... i can upload your video with your watermark__\n\n**Please Contact - tiger**")
 
-@bot.on_message(filters.command("stop"))
+@bot.on_message(filters.command("restart"))
 async def restart_handler(_, m):
-    await m.reply_text("🚦**STOPPED**🚦", True)
+    await m.reply_text("🚦**Restarted**🚦", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
-#Code written by @St2Master
+#Code written by tiger
 async def download_video(url, cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
     global failed_counter
@@ -82,7 +82,7 @@ async def send_vid(bot, m, cc, filename, name, prog):
     watermark_video = f"{filename}_watermark.mp4"
     await xxx.delete()
 #Code written by @St2Master    
-    reply = await bot.send_message(m.chat.id, f"**📩 Uploading 📩:-**\n\n**Name :-** `{name}\n\nDRM Bot Made By 🔰『@NtrRazYt』🔰") 
+    reply = await bot.send_message(m.chat.id, f"**Uploading :**\n\n**Name :** `{name}\n\nCode By TiGer") 
  
     try:
         await bot.send_video(chat_id=m.chat.id, video=watermark_video, caption=cc, supports_streaming=True, height=720, width=1280, thumb=thumb, duration=dur, progress_args=(reply, start_time))
@@ -95,7 +95,7 @@ async def send_vid(bot, m, cc, filename, name, prog):
     os.remove(thumb)
     await reply.delete()
 #Code written by @St2Master
-@bot.on_message(filters.command(["master"]))
+@bot.on_message(filters.command(["Leo"]))
 async def account_login(bot: Client, m: Message):
     editable = await m.reply_text('__Please Input Your Url __ \n\nEg:- `FileName: File Link` or Send default any Video Url')
     input: Message = await bot.listen(editable.chat.id)
@@ -118,7 +118,7 @@ async def account_login(bot: Client, m: Message):
         links = [i.split("://", 1) for i in content]
         await input.delete()
    
-    await editable.edit(f"Total links🔗 found are **{len(links)}**\n\nSend From where you want to download initial is **1**")
+    await editable.edit(f"Total Links Found Are **{len(links)}**\n\nSend From Where You Want To Download initial is **1**")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete()
@@ -152,7 +152,7 @@ async def account_login(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"' 
             try:
                 cc = f'**[🎥]Vid_id  »** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ »**__{name1}.mkv__\n'
-                Show = f"**🟢 Downloading 🟢:-**\n\n**Name :-** `{name}\n🎥Video Quality - {raw_text2}\n\n Bot Made By 🔰『@NtrRazYt』🔰"
+                Show = f"**🟢 Downloading 🟢:**\n\n**Name :-** `{name}\n🎥Video Quality - {raw_text2}\n\n Code By TiGer"
                 prog = await m.reply_text(Show)
                 filename = await download_video(url, cmd, name)
                 await prog.delete(True)
@@ -160,7 +160,7 @@ async def account_login(bot: Client, m: Message):
                 count += 1
                 time.sleep(1)
             except Exception as e:
-                    await m.reply_text(f"**⚠️Downloading Failed⚠️ & This #Failed File is not Counted**\n\n**Name** =>> `{name}`\n**Link** =>> `{url}`\n\n ** Fail Reason »** {e}\n\n Bot Made By 🔰『@NtrRazYt』🔰")
+                    await m.reply_text(f"**⚠️Downloading Failed⚠️ & This #Failed File is not Counted**\n\n**Name** =>> `{name}`\n**Link** =>> `{url}`\n\n ** Fail Reason »** {e}\n\n Code By TiGer")
                     continue
     except Exception as e:
         await m.reply_text(e)
