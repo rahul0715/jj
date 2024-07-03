@@ -128,7 +128,7 @@ async def account_login(bot: Client, m: Message):
         except Exception as e:
             await m.reply_text(f"Error: {e}")
             return []
-    
+
     # Wait for user input message
     input_message = await bot.listen(m.chat.id)
     links = await handle_user_input(input_message)
