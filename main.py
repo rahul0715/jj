@@ -19,12 +19,18 @@ bot = Client(
 )
 #Code written by @leo
 @bot.on_message(filters.command(["start"]))
-async def account_login(bot: Client, m: Message):
-    await m.reply_text(f"__Hello Bruh i am your bot ... i can upload your video with your watermark__\n\n**Please Contact - tiger**")
-
+async def start(_,message):
+  await message.reply_photo(photo="https://telegra.ph/file/1d0c6fe5961f466d596fa.jpg", caption="**𝙷𝚒!**\n\n**𝙶𝚒𝚟𝚎 /Leo ♌️ 𝙲𝚘𝚖𝚖𝚊𝚗𝚍 T𝚘 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙵𝚛𝚘𝚖 A 𝚃𝚎𝚡𝚝 F𝚒𝚕𝚎.**🎓✨",
+                            reply_markup=InlineKeyboardMarkup([
+                           
+                [
+                  InlineKeyboardButton("ᴄʜᴀɴɴᴇʟ", url="https://t.me/tigerxy09"),
+                  InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/tigerxy09")
+                ]
+                            ]))
 @bot.on_message(filters.command("restart"))
 async def restart_handler(_, m):
-    await m.reply_text("🚦**Restarted**🚦", True)
+    await m.reply_text("**Restarted**🚦", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
 #Code written by tiger
 async def download_video(url, cmd, name):
@@ -97,7 +103,7 @@ async def send_vid(bot, m, cc, filename, name, prog):
 #Code written by @St2Master
 @bot.on_message(filters.command(["Leo"]))
 async def account_login(bot: Client, m: Message):
-    editable = await m.reply_text('__Please Input Your Url __ \n\nEg:- `FileName: File Link` or Send default any Video Url')
+    editable = await m.reply_text('__Please Input Your Url __ \n\nEg: `FileName: File Link` or Send default any Video Url')
     input: Message = await bot.listen(editable.chat.id)
     if input.document:
         x = await input.download()
@@ -123,7 +129,7 @@ async def account_login(bot: Client, m: Message):
     raw_text = input0.text
     await input0.delete()
     
-    await editable.edit("__Enter resolution or Video Quality__\n\nEg - `360` or `480` or `720`")
+    await editable.edit("**Enter Resolution**")
     input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
     await input2.delete()
@@ -135,7 +141,7 @@ async def account_login(bot: Client, m: Message):
         count = int(raw_text)
     try:            
         for i in range(len(links)):
-            name1 = links[i][0].replace(":", "『ᎷΔŞŦᏋᏒ』").replace("https", "").strip()
+            name1 = links[i][0].replace(":", "Leo").replace("https", "").strip()
             name = f'{str(count).zfill(3)}){name1[:60]}'
             url = links[i][1]       
             if "youtu" in url:
@@ -151,8 +157,8 @@ async def account_login(bot: Client, m: Message):
             else:
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"' 
             try:
-                cc = f'**[🎥]Vid_id  »** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ »**__{name1}.mkv__\n'
-                Show = f"**🟢 Downloading 🟢:**\n\n**Name :-** `{name}\n🎥Video Quality - {raw_text2}\n\n Code By TiGer"
+                cc = f'**Vid_id  :** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ :**__{name1}.mkv__\n'
+                Show = f"** Downloading :**\n\n**Name :** `{name}\nVideo Quality - {raw_text2}\n\n Code By TiGer"
                 prog = await m.reply_text(Show)
                 filename = await download_video(url, cmd, name)
                 await prog.delete(True)
@@ -160,11 +166,11 @@ async def account_login(bot: Client, m: Message):
                 count += 1
                 time.sleep(1)
             except Exception as e:
-                    await m.reply_text(f"**⚠️Downloading Failed⚠️ & This #Failed File is not Counted**\n\n**Name** =>> `{name}`\n**Link** =>> `{url}`\n\n ** Fail Reason »** {e}\n\n Code By TiGer")
+                    await m.reply_text(f"**Downloading Interupted **\n\n**Name** : `{name}`\n**Link** : `{url}`\n\n ** Fail Reason :** {e}\n\n Code By TiGer")
                     continue
     except Exception as e:
         await m.reply_text(e)
-    await m.reply_text("🚦**Done**🚦")
+    await m.reply_text("**Done**🚦")
 
 bot.run()
 #Code written by @St2Master
