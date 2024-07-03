@@ -160,7 +160,7 @@ async def account_login(bot: Client, m: Message):
             else:
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"' 
             try:
-                cc = f'**Vid_id  :** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ :**__{name1}.mkv__\n'
+                cc = f'**Vid_id  :** {str(count).zfill(3)}\n\n**Tittle :**{name1}.mkv\n'
                 Show = f"** Downloading :**\n\n**Name :** {name}\nVideo Quality - {raw_text2}\n\n Code By TiGer"
                 prog = await m.reply_text(Show)
                 filename = await download_video(url, cmd, name)
