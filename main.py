@@ -1,6 +1,6 @@
+#Code written by @St2Master
 import subprocess
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.types import Message
 from pyromod import listen
 import asyncio
@@ -17,18 +17,12 @@ bot = Client(
     api_id=28426319,
     api_hash="b1e3ce7b9cc5d73e7c22c9e82ab3cbe9"
 )
-#Code written by @leo
+#Code written by @St2Master
 @bot.on_message(filters.command(["start"]))
-async def start(_,message):
-  await message.reply_photo(photo="https://telegra.ph/file/1d0c6fe5961f466d596fa.jpg", caption="**𝙷𝚒!**\n\n**𝙶𝚒𝚟𝚎 /Leo ♌️ 𝙲𝚘𝚖𝚖𝚊𝚗𝚍 T𝚘 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙵𝚛𝚘𝚖 A 𝚃𝚎𝚡𝚝 F𝚒𝚕𝚎.**🎓✨",
-                            reply_markup=InlineKeyboardMarkup([
-                           
-                [
-                  InlineKeyboardButton("ᴄʜᴀɴɴᴇʟ", url="https://t.me/tigerxy09"),
-                  InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/tigerxy09")
-                ]
-                            ]))
-@bot.on_message(filters.command("Restart"))
+async def account_login(bot: Client, m: Message):
+    await m.reply_text(f"__Hello Bruh i am your bot ... i can upload your video with your watermark__\n\n**Please Contact - @St2Master**")
+
+@bot.on_message(filters.command("stop"))
 async def restart_handler(_, m):
     await m.reply_text("🚦**STOPPED**🚦", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
@@ -88,7 +82,7 @@ async def send_vid(bot, m, cc, filename, name, prog):
     watermark_video = f"{filename}_watermark.mp4"
     await xxx.delete()
 #Code written by @St2Master    
-    reply = await bot.send_message(m.chat.id, f"**📩 Uploading 📩:-**\n\n**Name :-** `{name}\n\nDRM Bot Made By 🔰『TIGER』🔰") 
+    reply = await bot.send_message(m.chat.id, f"**📩 Uploading 📩:-**\n\n**Name :-** `{name}\n\nDRM Bot Made By 🔰『@NtrRazYt』🔰") 
  
     try:
         await bot.send_video(chat_id=m.chat.id, video=watermark_video, caption=cc, supports_streaming=True, height=720, width=1280, thumb=thumb, duration=dur, progress_args=(reply, start_time))
@@ -158,7 +152,7 @@ async def account_login(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"' 
             try:
                 cc = f'**[🎥]Vid_id  »** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ »**__{name1}.mkv__\n'
-                Show = f"**🟢 Downloading 🟢:-**\n\n**Name :-** `{name}\n🎥Video Quality - {raw_text2}\n\n Bot Made By 🔰『TIGER』🔰"
+                Show = f"**🟢 Downloading 🟢:-**\n\n**Name :-** `{name}\n🎥Video Quality - {raw_text2}\n\n Bot Made By 🔰『@NtrRazYt』🔰"
                 prog = await m.reply_text(Show)
                 filename = await download_video(url, cmd, name)
                 await prog.delete(True)
@@ -166,10 +160,11 @@ async def account_login(bot: Client, m: Message):
                 count += 1
                 time.sleep(1)
             except Exception as e:
-                    await m.reply_text(f"**⚠️Downloading Failed⚠️ & This #Failed File is not Counted**\n\n**Name** =>> `{name}`\n**Link** =>> `{url}`\n\n ** Fail Reason »** {e}\n\n Bot Made By 🔰『TIGER』🔰")
+                    await m.reply_text(f"**⚠️Downloading Failed⚠️ & This #Failed File is not Counted**\n\n**Name** =>> `{name}`\n**Link** =>> `{url}`\n\n ** Fail Reason »** {e}\n\n Bot Made By 🔰『@NtrRazYt』🔰")
                     continue
     except Exception as e:
         await m.reply_text(e)
     await m.reply_text("🚦**Done**🚦")
 
 bot.run()
+#Code written by @St2Master
