@@ -28,11 +28,11 @@ async def start(_,message):
                   InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url="https://t.me/tigerxy09")
                 ]
                             ]))
-@bot.on_message(filters.command("restart"))
+@bot.on_message(filters.command("Restart"))
 async def restart_handler(_, m):
-    await m.reply_text("**Restarted**🚦", True)
+    await m.reply_text("🚦**STOPPED**🚦", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
-#Code written by tiger
+#Code written by @St2Master
 async def download_video(url, cmd, name):
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
     global failed_counter
@@ -63,7 +63,7 @@ async def download_video(url, cmd, name):
 #Code written by @St2Master    
 async def send_vid(bot, m, cc, filename, name, prog):
     await prog.delete()
-    xx = await bot.send_message(m.chat.id, f"**Generate Thumbnail** - {name}")
+    xx = await bot.send_message(m.chat.id, f"**Generate Thumbnail** - `{name}`")
     subprocess.run(f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"', shell=True)
     thumb = f"{filename}.jpg"
     logging.info("Default Thumb downloaded successfully!")
@@ -75,7 +75,7 @@ async def send_vid(bot, m, cc, filename, name, prog):
     await xx.delete()
     
     try:
-        xxx = await bot.send_message(m.chat.id, f"**WaterMark Overlay on Video - ** {name}")
+        xxx = await bot.send_message(m.chat.id, f"**WaterMark Overlay on Video - ** `{name}`")
         subprocess.run(
             f'ffmpeg -i "{filename}" -i watermark.png -filter_complex '
             f'"[0][1]overlay=x=(W-w)*mod(n\,500)/500:y=(H-h)*mod(n\,1000)/1000" '
@@ -88,7 +88,7 @@ async def send_vid(bot, m, cc, filename, name, prog):
     watermark_video = f"{filename}_watermark.mp4"
     await xxx.delete()
 #Code written by @St2Master    
-    reply = await bot.send_message(m.chat.id, f"**Uploading :**\n\n**Name :** {name}\n\nCode By TiGer") 
+    reply = await bot.send_message(m.chat.id, f"**📩 Uploading 📩:-**\n\n**Name :-** `{name}\n\nDRM Bot Made By 🔰『TIGER』🔰") 
  
     try:
         await bot.send_video(chat_id=m.chat.id, video=watermark_video, caption=cc, supports_streaming=True, height=720, width=1280, thumb=thumb, duration=dur, progress_args=(reply, start_time))
@@ -101,9 +101,9 @@ async def send_vid(bot, m, cc, filename, name, prog):
     os.remove(thumb)
     await reply.delete()
 #Code written by @St2Master
-@bot.on_message(filters.command(["Leo"]))
+@bot.on_message(filters.command(["master"]))
 async def account_login(bot: Client, m: Message):
-    editable = await m.reply_text('__Please Input Your Url __ \n\nEg: FileName: File Link or Send default any Video Url')
+    editable = await m.reply_text('__Please Input Your Url __ \n\nEg:- `FileName: File Link` or Send default any Video Url')
     input: Message = await bot.listen(editable.chat.id)
     if input.document:
         x = await input.download()
@@ -124,12 +124,12 @@ async def account_login(bot: Client, m: Message):
         links = [i.split("://", 1) for i in content]
         await input.delete()
    
-    await editable.edit(f"Total Links Found Are **{len(links)}**\n\nSend From Where You Want To Download initial is **1**")
+    await editable.edit(f"Total links🔗 found are **{len(links)}**\n\nSend From where you want to download initial is **1**")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete()
     
-    await editable.edit("**Enter Resolution**")
+    await editable.edit("__Enter resolution or Video Quality__\n\nEg - `360` or `480` or `720`")
     input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
     await input2.delete()
@@ -141,7 +141,7 @@ async def account_login(bot: Client, m: Message):
         count = int(raw_text)
     try:            
         for i in range(len(links)):
-            name1 = links[i][0].replace(":", "Leo").replace("https", "").strip()
+            name1 = links[i][0].replace(":", "『ᎷΔŞŦᏋᏒ』").replace("https", "").strip()
             name = f'{str(count).zfill(3)}){name1[:60]}'
             url = links[i][1]       
             if "youtu" in url:
@@ -157,8 +157,8 @@ async def account_login(bot: Client, m: Message):
             else:
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"' 
             try:
-                cc = f'**Vid_id  :** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ :**__{name1}.mkv__\n'
-                Show = f"** Downloading :**\n\n**Name :** {name}\nVideo Quality - {raw_text2}\n\n Code By TiGer"
+                cc = f'**[🎥]Vid_id  »** {str(count).zfill(3)}\n**Tɪᴛᴛʟᴇ »**__{name1}.mkv__\n'
+                Show = f"**🟢 Downloading 🟢:-**\n\n**Name :-** `{name}\n🎥Video Quality - {raw_text2}\n\n Bot Made By 🔰『TIGER』🔰"
                 prog = await m.reply_text(Show)
                 filename = await download_video(url, cmd, name)
                 await prog.delete(True)
@@ -166,10 +166,10 @@ async def account_login(bot: Client, m: Message):
                 count += 1
                 time.sleep(1)
             except Exception as e:
-                    await m.reply_text(f"**Downloading Interupted **\n\n**Name** : {name}\n**Link** : {url}\n\n ** Fail Reason :** {e}\n\n Code By TiGer")
+                    await m.reply_text(f"**⚠️Downloading Failed⚠️ & This #Failed File is not Counted**\n\n**Name** =>> `{name}`\n**Link** =>> `{url}`\n\n ** Fail Reason »** {e}\n\n Bot Made By 🔰『TIGER』🔰")
                     continue
     except Exception as e:
         await m.reply_text(e)
-    await m.reply_text("**Done**🚦")
+    await m.reply_text("🚦**Done**🚦")
 
 bot.run()
