@@ -10,3 +10,5 @@
 ## Deploy To Heroku
 
 [![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new-app?template=https://github.com/rahul0715/love)
+
+https://dashboard.heroku.com/new-app?template=https://github.com/rahul0715/love
