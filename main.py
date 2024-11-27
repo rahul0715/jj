@@ -1,4 +1,3 @@
-
 import os
 import json
 import re
@@ -15,8 +14,9 @@ BOT_TOKEN = "7805856791:AAE_9bEkeN_b9nJLwcLrHigf6bhzXvJACKA"
 # Initialize the bot
 bot = Client("video_downloader_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-def progress(current, total):
-    print("\rUpload Progress: {:.1f}%".format(current * 100 / total), end='')
+def progress(current, total, message, name):
+    percent = current * 100 / total
+    message.edit_text(f"Uploading {name}: {percent:.1f}%")
 
 def sanitize_filename(filename):
     return re.sub(r'[<>:"/\\|?*]', '_', filename)
@@ -25,6 +25,9 @@ def download_video(entry, temp_dir):
     mpd = entry["mpd"]
     name = sanitize_filename(entry["name"])
     keys = entry["keys"]
+
+    if not os.path.isfile("./N_m3u8DL-RE"):
+        raise Exception("N_m3u8DL-RE tool is missing!")
 
     command = [
         "./N_m3u8DL-RE",
@@ -85,7 +88,7 @@ def handle_json_file(client, message: Message):
                     chat_id=message.chat.id,
                     video=video_path,
                     caption=f"Uploaded: {name}",
-                    progress=progress,
+                    progress=lambda current, total: progress(current, total, message, name),
                     width=1920,
                     height=1080
                 )
