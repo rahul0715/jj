@@ -1,27 +1,20 @@
+
 {
-    "name": "𝐓𝐞𝐱𝐭 𝐔𝐩𝐥𝐨𝐚𝐝𝐞𝐫 『ᎷΔŞŦᏋᏒ』BOT",
-    "description": "Telegram bot to download videos using MPD links and upload them.",
+    "name": "𝐓𝐞𝐱𝐭 Uploader 『ᎷΔŞŦᏋᏒ』BOT",
+    "description": "Download videos from various websites using this telegram bot",
     "logo": "https://telegra.ph/file/32f106d692ff33700c464.jpg",
     "keywords": [
-        "video-downloader",
-        "telegram-bot",
+        "text-video",
+        "video-extract",
         "pyrogram",
-        "mpd"
+        "watermark"
     ],
-    "repository": "https://github.com/rahul0715/dem",
+    "repository": "https://github.com/NtrRaz/TOPIC",
     "success_url": "https://telegram.me/classtubeofficial",
     "stack": "container",
     "env": {
-        "API_ID": {
-            "description": "Your Telegram API ID from https://my.telegram.org/",
-            "required": true
-        },
-        "API_HASH": {
-            "description": "Your Telegram API Hash from https://my.telegram.org/",
-            "required": true
-        },
         "BOT_TOKEN": {
-            "description": "Your bot token from BotFather on Telegram",
+            "description": "𝑬𝒏𝒕𝒆𝒓 𝒀𝒐𝒖𝒓 𝑩𝒐𝒕 𝑻𝒐𝒌𝒆𝒏",
             "required": true
         }
     },
@@ -29,9 +22,6 @@
     "buildpacks": [
         {
             "url": "heroku/python"
-        }
-    ],
-    "docker": {
-        "image": "Dockerfile"
+        }      
+    ]
     }
-}
