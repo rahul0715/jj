@@ -1,28 +1,24 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM ubuntu:20.04
 
-# Set environment variables to prevent tzdata interactive prompts
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/New_York  # Change to your desired timezone (e.g., "Europe/London")
-
-# Install necessary packages and configure the timezone
+# Install dependencies
 RUN apt-get update && \
-    apt-get install -y tzdata wget && \
-    ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && \
-    dpkg-reconfigure --frontend noninteractive tzdata && \
-    apt-get clean
+    apt-get install -y wget tar && \
+    apt-get install -y wine64
 
-# Set the working directory inside the container
+# Download and extract N_m3u8DL-RE
+RUN wget https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v0.2.1-beta/N_m3u8DL-RE_Beta_linux-x64_20240828.tar.gz && \
+    tar -xvzf N_m3u8DL-RE_Beta_linux-x64_20240828.tar.gz && \
+    chmod +x N_m3u8DL-RE mp4decrypt
+
+# Copy your project files into the container
+COPY . /app/
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Install Python dependencies
+COPY requirements.txt /app/
+RUN pip install -r requirements.txt
 
-# Install dependencies from the requirements.txt file
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Expose any necessary ports (if your app needs to listen on a port)
-EXPOSE 80
-
-# Define the command to run your app (assuming the entry point is main.py)
-CMD ["python", "main.py"]
+# Command to run your application
+CMD ["python3", "main.py"]
