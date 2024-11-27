@@ -3,7 +3,7 @@ FROM python:3.9-slim
 
 # Set environment variables to prevent tzdata interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/New_York  # Change to your desired timezone, e.g., "Europe/London"
+ENV TZ=America/New_York  # Change to your desired timezone (e.g., "Europe/London")
 
 # Install necessary packages and configure the timezone
 RUN apt-get update && \
