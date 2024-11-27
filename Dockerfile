@@ -1,11 +1,17 @@
-FROM python:3.9.6-alpine3.14
+# Use an appropriate base image
+FROM python:3.9
+
+# Set the working directory inside the container
 WORKDIR /app
+
+# Copy all files from the current directory to the container
 COPY . .
 
-# Install dependencies
-RUN apk add --no-cache gcc libffi-dev musl-dev ffmpeg aria2 \
-    && pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir --upgrade pip
+# Ensure the executable has the correct permissions
+RUN chmod +x N_m3u8DL-RE.exe
 
-# Run the application
-CMD [ "python", "./main.py" ]
+# Install dependencies
+RUN pip install -r requirements.txt
+
+# Set the entry point for the application
+CMD ["python", "main.py"]
