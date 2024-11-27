@@ -1,31 +1,28 @@
-# Use an official base image
+# Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Set environment variables to avoid tzdata prompt
+# Set environment variables to prevent tzdata interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/New_York  # Set your desired timezone, e.g., "America/New_York"
+ENV TZ=America/New_York  # Change to your desired timezone, e.g., "Europe/London"
 
-# Install tzdata and other dependencies
+# Install necessary packages and configure the timezone
 RUN apt-get update && \
-    apt-get install -y tzdata && \
+    apt-get install -y tzdata wget && \
     ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
     apt-get clean
 
-# Other necessary dependencies for your app
-RUN apt-get install -y wget
-
-# Copy your application code
-COPY . /app
-
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Install Python dependencies
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install dependencies from the requirements.txt file
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose any necessary ports
+# Expose any necessary ports (if your app needs to listen on a port)
 EXPOSE 80
 
-# Define the command to run your bot
+# Define the command to run your app (assuming the entry point is main.py)
 CMD ["python", "main.py"]
