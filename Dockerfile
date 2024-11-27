@@ -1,24 +1,31 @@
-FROM ubuntu:20.04
+# Use an official base image
+FROM python:3.9-slim
 
-# Install dependencies
+# Set environment variables to avoid tzdata prompt
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/New_York  # Set your desired timezone, e.g., "America/New_York"
+
+# Install tzdata and other dependencies
 RUN apt-get update && \
-    apt-get install -y wget tar && \
-    apt-get install -y wine64
+    apt-get install -y tzdata && \
+    ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && \
+    dpkg-reconfigure --frontend noninteractive tzdata && \
+    apt-get clean
 
-# Download and extract N_m3u8DL-RE
-RUN wget https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v0.2.1-beta/N_m3u8DL-RE_Beta_linux-x64_20240828.tar.gz && \
-    tar -xvzf N_m3u8DL-RE_Beta_linux-x64_20240828.tar.gz && \
-    chmod +x N_m3u8DL-RE mp4decrypt
+# Other necessary dependencies for your app
+RUN apt-get install -y wget
 
-# Copy your project files into the container
-COPY . /app/
+# Copy your application code
+COPY . /app
 
 # Set the working directory
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Command to run your application
-CMD ["python3", "main.py"]
+# Expose any necessary ports
+EXPOSE 80
+
+# Define the command to run your bot
+CMD ["python", "main.py"]
