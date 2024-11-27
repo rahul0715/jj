@@ -1,24 +1,25 @@
+# Use a basic Ubuntu image
 FROM ubuntu:20.04
 
-# Install dependencies
+# Install Wine, dependencies, and wget
 RUN apt-get update && \
-    apt-get install -y wget tar && \
-    apt-get install -y wine64
+    apt-get install -y wget wine64
 
-# Download and extract N_m3u8DL-RE
-RUN wget https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v0.2.1-beta/N_m3u8DL-RE_Beta_linux-x64_20240828.tar.gz && \
-    tar -xvzf N_m3u8DL-RE_Beta_linux-x64_20240828.tar.gz && \
-    chmod +x N_m3u8DL-RE mp4decrypt
+# Download the N_m3u8DL-RE.exe (or your required version)
+RUN wget https://github.com/rahul0715/jj/blob/main/N_m3u8DL-RE.exe -O /app/N_m3u8DL-RE.exe
 
-# Copy your project files into the container
-COPY . /app/
+# Make the .exe file executable
+RUN chmod +x /app/N_m3u8DL-RE.exe
 
 # Set the working directory
 WORKDIR /app
 
-# Install Python dependencies
+# Install any other dependencies for your Python application
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
-# Command to run your application
+# Copy the rest of the application files
+COPY . /app/
+
+# Command to run your Python app, or use the entrypoint script
 CMD ["python3", "main.py"]
