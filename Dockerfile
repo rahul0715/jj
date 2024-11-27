@@ -1,25 +1,17 @@
-# Use a basic Ubuntu image
-FROM ubuntu:20.04
+# Use an appropriate base image
+FROM python:3.9
 
-# Install Wine, dependencies, and wget
-RUN apt-get update && \
-    apt-get install -y wget wine64
-
-# Download the N_m3u8DL-RE.exe (or your required version)
-RUN wget https://github.com/rahul0715/jj/blob/main/N_m3u8DL-RE.exe -O /app/N_m3u8DL-RE.exe
-
-# Make the .exe file executable
-RUN chmod +x /app/N_m3u8DL-RE.exe
-
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Install any other dependencies for your Python application
-COPY requirements.txt /app/
+# Copy all files from the current directory to the container
+COPY . .
+
+# Ensure the executable has the correct permissions
+RUN chmod +x N_m3u8DL-RE.exe
+
+# Install dependencies
 RUN pip install -r requirements.txt
 
-# Copy the rest of the application files
-COPY . /app/
-
-# Command to run your Python app, or use the entrypoint script
-CMD ["python3", "main.py"]
+# Set the entry point for the application
+CMD ["python", "main.py"]
